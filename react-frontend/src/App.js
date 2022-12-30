@@ -3,6 +3,8 @@ import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Profile from "./components/profile";
 import NoPage from "./components/NoPage";
+import Layout from  "./components/Layout";
+import React from "react";
 
 
 function App() {
