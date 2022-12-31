@@ -25,8 +25,8 @@ const App: React.FC = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Profile />} />
-                    <Route path="*" element={<NoPage />} />
+                    <Route index element={<NoPage />} />
+                    <Route path="profile" element={<Profile />} />
                 </Route>
             </Routes>
         </BrowserRouter>
