@@ -1,12 +1,15 @@
-import {Link} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 // import exp = require("constants");
 
 const Layout = () =>{
     return (
         <>
             <header>
-                <Link to="/profile">Profile</Link>
+                <nav>
+                    <Link to="/profile">Profile</Link>
+                </nav>
             </header>
+            <Outlet />
         </>
     );
 }
