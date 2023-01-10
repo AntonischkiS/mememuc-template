@@ -1,3 +1,4 @@
+import "./Layout.css";
 const Profile = () =>{
     return <h1>Profile</h1>
 }
