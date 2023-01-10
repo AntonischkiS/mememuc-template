@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Profile from "./components/profile";
 import NoPage from "./components/NoPage";
 import Layout from  "./components/Layout";
+import Login from  "./components/login";
 import * as React from "react";
 
 
@@ -27,6 +28,7 @@ const App: React.FC = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<NoPage />} />
                     <Route path="profile" element={<Profile />} />
+                    <Route path="login" element={<Login />}  />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -12,7 +12,7 @@ const Layout = () => {
                     </nav>
                 </h1>
                 <nav>
-                    <a href="Login">Sign in</a>
+                    <Link to="/login">Log in</Link>
                     <a href="Register"> Register</a>
                 </nav>
             </header>
