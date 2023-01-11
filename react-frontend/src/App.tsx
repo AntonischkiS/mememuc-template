@@ -2,10 +2,10 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Profile from "./components/profile";
-import NoPage from "./components/NoPage";
-import Layout from  "./components/Layout";
+import Layout from "./components/Layout";
 import Login from  "./components/login";
 import * as React from "react";
+import Overview from "./components/Overview";
 
 
 // function App() {
@@ -26,10 +26,11 @@ const App: React.FC = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<NoPage />} />
+                    <Route index element={<Overview />} />
                     <Route path="profile" element={<Profile />} />
-                    <Route path="login" element={<Login />}  />
+                    {/*<Route path={"editor"} element={}></Route>*/}
                 </Route>
+                <Route path="login" element={<Login />}  />
             </Routes>
         </BrowserRouter>
     );
