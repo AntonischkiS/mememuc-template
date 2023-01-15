@@ -1,8 +1,8 @@
 // Source: https://www.smashingmagazine.com/2020/03/infinite-scroll-lazy-image-loading-react/
 import React, { useReducer, useRef } from 'react';
 
-import { useFetch, useInfiniteScroll, useLazyLoading } from '../customHooks'
-import '../index.css';
+import { useFetch, useInfiniteScroll, useLazyLoading } from '../../customHooks'
+import '../../index.css';
 
 function Overview() {
     const imgReducer = (state, action) => {

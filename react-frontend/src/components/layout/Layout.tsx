@@ -14,7 +14,7 @@ const Layout = () => {
                 </h1>
                 <nav className={"navAuth"} id={"navAuth"}>
                     <Link to="/login">Log in</Link>
-                    <a href="Register"> Register</a>
+                    <a href="src/components/register"> Register</a>
                 </nav>
             </header>
             <Outlet/>
