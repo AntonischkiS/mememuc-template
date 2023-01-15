@@ -7,12 +7,12 @@ const Layout = () => {
         <>
             <header className={"appHeader"} id={"appHead"}>
                 <h1 id={"profileHeader"}>
-                    <nav id={"navLinks"}>
+                    <nav className={"navLinks"} id={"navLinks"}>
                         <Link to="/profile">Profile</Link>
                         <Link to={""}>Overview</Link>
                     </nav>
                 </h1>
-                <nav id={"navAuth"}>
+                <nav className={"navAuth"} id={"navAuth"}>
                     <Link to="/login">Log in</Link>
                     <a href="Register"> Register</a>
                 </nav>
