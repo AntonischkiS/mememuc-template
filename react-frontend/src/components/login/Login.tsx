@@ -20,31 +20,25 @@ const Login = () => {
     function validateLogin() {
         if (userData.name === "" || userData.password === "") {
             setData({
-                success: false,
-                password: userData.password,
-                error: {status: true, message: ""},
-                name: userData.name
+                ...userData, error: {status: true, message: "User name or Password can't be empty"},
             })
+            return;
         }
         try {
             //TODO validate user name and password in backend
             if (userData.name === "Adam" || userData.password === "1") {
                 setData({
-                    success: true, password: userData.password, error: userData.error, name: userData.name
+                    ...userData, success: true
                 })
             } else {
                 setData({
-                    success: false,
-                    password: userData.password,
+                    ...userData,
                     error: {status: true, message: "Invalid Credentials!"},
-                    name: userData.name
                 })
             }
         } catch (error: any) {
             setData({
-                success: false,
-                password: "",
-                name: userData.name,
+                ...userData,
                 error: {status: true, message: error}
             })
         }
@@ -66,20 +60,16 @@ const Login = () => {
             <ul>
                 <li><label>
                     Username:</label>
-               <input id="user" name="user" type={"text"} onChange={(event) => setData({
-                   name: event.target.value,
-                   password: userData.password,
-                   error: userData.error,
-                   success: userData.success
-               })}></input>
+                    <input id="user" name="user" type={"text"} onChange={(event) => setData({
+                        ...userData,
+                        name: event.target.value,
+                    })}></input>
                 </li>
                 <li><label>
                     Password: </label>
                     <input id="pw" name="pw" type={"password"} onChange={(event) => setData({
-                        name: userData.name,
-                        password: event.target.value,
-                        error: userData.error,
-                        success: userData.success
+                        ...userData,
+                        password: event.target.value
                     })}></input>
                 </li>
                 <li>
