@@ -5,18 +5,57 @@ import {useNavigate} from "react-router-dom";
 interface UserData {
     name: String,
     password: String;
+    error: { status: Boolean, message: String };
+    success: Boolean;
 }
 
 const Login = () => {
 //TODO find out how to remove header of layout
     const navigate = useNavigate();
+
     const [userData, setData] = React.useState<UserData>({
-        name: "", password: ""
+        name: "", password: "", error: {status: false, message: ""}, success: false
     });
 
-    function login() {
-        navigate("/profile")
-        console.log(userData)
+    function validateLogin() {
+        if (userData.name === "" || userData.password === "") {
+            setData({
+                success: false,
+                password: userData.password,
+                error: {status: true, message: ""},
+                name: userData.name
+            })
+        }
+        try {
+            //TODO validate user name and password in backend
+            if (userData.name === "Adam" || userData.password === "1") {
+                setData({
+                    success: true, password: userData.password, error: userData.error, name: userData.name
+                })
+            } else {
+                setData({
+                    success: false,
+                    password: userData.password,
+                    error: {status: true, message: "Invalid Credentials!"},
+                    name: userData.name
+                })
+            }
+        } catch (error: any) {
+            setData({
+                success: false,
+                password: "",
+                name: userData.name,
+                error: {status: true, message: error}
+            })
+        }
+    }
+
+    function handleLoginClick() {
+        validateLogin() //Needs proper credentials to login
+        if (userData.success) {
+            navigate("/profile")
+            console.log(userData) //Only for debug, remove for production
+        }
     }
 
     return (
@@ -25,20 +64,31 @@ const Login = () => {
                 Log In
             </h1>
             <ul>
-                <li>
-               <textarea id="user" name="user" rows={1} defaultValue={"Username"} onChange={(event) => setData({
+                <li><label>
+                    Username:</label>
+               <input id="user" name="user" type={"text"} onChange={(event) => setData({
                    name: event.target.value,
-                   password: userData.password
-               })}></textarea>
+                   password: userData.password,
+                   error: userData.error,
+                   success: userData.success
+               })}></input>
                 </li>
-                <li>
-                    <input id="pw" name="pw" type={"password"} defaultValue={"Password"} onChange={(event) => setData({
+                <li><label>
+                    Password: </label>
+                    <input id="pw" name="pw" type={"password"} onChange={(event) => setData({
                         name: userData.name,
-                        password: event.target.value
+                        password: event.target.value,
+                        error: userData.error,
+                        success: userData.success
                     })}></input>
                 </li>
                 <li>
-                    <button onClick={login}> Login</button>
+                    {userData.error.status && (<div className={"error"}>{
+                        userData.error.message}
+                    </div>)}
+                </li>
+                <li>
+                    <button onClick={handleLoginClick}> Login</button>
                 </li>
             </ul>
         </div>);
