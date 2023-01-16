@@ -27,3 +27,26 @@ header :nth-child(2) {
     position: absolute;
     right: 17px;
 }
+
+.meme-generator {
+    margin: 20px auto;
+    width: 400px;
+    font-family: sans-serif;
+  }
+  
+  .meme-generator label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .meme-generator input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+  
+  #meme {
+    width: 100%;
+  }
+  

@@ -49,6 +49,20 @@ const Layout = () => {
                 </nav>
             </header>
             <Outlet/>
+            <body>
+                <div class="meme-generator">
+                    <label>Select an Image</label>
+                    <input type="file" id="imageFileInput">
+
+                    <label>Top Text</label>
+                    <input type="text" id="topTextInput">
+
+                    <label>Bottom Text</label>
+                    <input type="text" id="bottomTextInput">
+
+                    <canvas id="meme"></canvas>
+                </div>
+            </body>
         </>
     );
 }
