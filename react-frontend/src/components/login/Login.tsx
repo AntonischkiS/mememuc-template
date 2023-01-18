@@ -24,8 +24,17 @@ const Login = () => {
             })
             return;
         }
+        fetch("http://localhost:3001/users", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                name: userData.name,
+                password: userData.password
+            })
+        }).then(res => {
         try {
             //TODO validate user name and password in backend
+            // fetch()
             if (userData.name === "Adam" || userData.password === "1") {
                 setData({
                     ...userData, success: true
@@ -41,14 +50,15 @@ const Login = () => {
                 ...userData,
                 error: {status: true, message: error}
             })
-        }
+        }})
     }
 
     function handleLoginClick() {
         validateLogin() //Needs proper credentials to login
         if (userData.success) {
-            navigate("/profile")
+
             console.log(userData) //Only for debug, remove for production
+            navigate("/profile")
         }
     }
 
