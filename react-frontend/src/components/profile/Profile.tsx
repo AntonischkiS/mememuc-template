@@ -1,4 +1,4 @@
-import "./Layout.css";
+import "../layout/Layout.css";
 const Profile = () =>{
     return <h1>Profile</h1>
 }

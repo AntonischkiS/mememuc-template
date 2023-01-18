@@ -9,5 +9,8 @@ router.get('/', function(req, res, next) {
       .then((docs) => res.json(docs))
       .catch((e) => res.status(500).send())
 });
-
+router.post('/users', function(req, res, next) {
+  console.log(req.body);
+  res.status(200);
+})
 module.exports = router;

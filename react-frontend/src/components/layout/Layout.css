@@ -18,14 +18,33 @@ header {
 
 header h1 {
     font-weight: 100;
+    display: flex;
+    flex-direction: row;
 }
-header :nth-child(2) {
+.navLinks >* {
+    margin: 0.5rem;
+}
+.navAuth{
     border: 10px;
     margin: 58px;
     display: flex;
     align-items: center;
     position: absolute;
     right: 17px;
+    flex-direction: row;
+}
+.navAuth >* {
+    margin: 0.25rem;
+}
+
+header :nth-last-child(0)  {
+    border: 10px;
+    margin: 58px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 17px;
+    flex-direction: row;
 }
 
 .meme-generator {
