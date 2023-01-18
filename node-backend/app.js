@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
 // ##### IMPORTANT
 // ### Your backend project has to switch the MongoDB port like this
@@ -25,6 +26,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 app.use(function(req,res,next){  req.db = db;
   next();
@@ -55,7 +57,9 @@ app.use((req,res,next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+app.post('/users', function(req, res) {
+  res.send('GET')
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
