@@ -6,6 +6,7 @@ import Layout from "./components/Layout";
 import Login from  "./components/login";
 import * as React from "react";
 import Overview from "./components/Overview";
+import SingleView from "./components/SingleView";
 
 
 // function App() {
@@ -27,10 +28,12 @@ const App: React.FC = () => {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Overview />} />
+                    <Route path="/meme/:id/" element={<SingleView/>} />
                     <Route path="profile" element={<Profile />} />
                     {/*<Route path={"editor"} element={}></Route>*/}
                 </Route>
                 <Route path="login" element={<Login />}  />
+
             </Routes>
         </BrowserRouter>
     );
