@@ -1,6 +1,8 @@
 import "./Login.css"
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, redirect} from "react-router-dom";
+import PropTypes from 'prop-types';
+
 
 interface UserData {
     name: String,
@@ -9,7 +11,9 @@ interface UserData {
     success: Boolean;
 }
 
-const Login = () => {
+
+// @ts-ignore, can ignore here because Login should only be called from App
+const Login = ({setToken}) => {
 //TODO find out how to remove header of layout
     const navigate = useNavigate();
 
@@ -17,8 +21,8 @@ const Login = () => {
         name: "", password: "", error: {status: false, message: ""}, success: false
     });
 
-    function validateLogin() {
-        if (userData.name === "" || userData.password === "") {
+    async function validateLogin() {
+        if (userData.name === "" || userData.password === "") { //Don't allow empty name or password
             setData({
                 ...userData, error: {status: true, message: "User name or Password can't be empty"},
             })
@@ -53,12 +57,13 @@ const Login = () => {
         }})
     }
 
-    function handleLoginClick() {
-        validateLogin() //Needs proper credentials to login
+    async function handleLoginClick() {
+        await validateLogin() //Needs proper credentials to login
         if (userData.success) {
-
             console.log(userData) //Only for debug, remove for production
-            navigate("/profile")
+            const token = {name : userData.name}; //TODO: add further data as needed, e.g. mail
+            setToken(token);
+            redirect("/profile");
         }
     }
 
@@ -92,6 +97,10 @@ const Login = () => {
                 </li>
             </ul>
         </div>);
+}
+
+Login.propTypes = {
+    setToken: PropTypes.func.isRequired
 }
 
 export default Login;
