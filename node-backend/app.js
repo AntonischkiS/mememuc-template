@@ -34,23 +34,23 @@ app.use(function(req,res,next){  req.db = db;
 
 
 // the login middleware. Requires BasicAuth authentication
-app.use((req,res,next) => {
-  const users = db.get('users');
-  users.findOne({basicauthtoken: req.headers.authorization}).then(user => {
-    if (user) {
-      req.username = user.username;  // test test => Basic dGVzdDp0ZXN0
-      next()
-    }
-    else {
-      res.set('WWW-Authenticate', 'Basic realm="401"')
-      res.status(401).send()
-    }
-  }).catch(e => {
-    console.error(e)
-    res.set('WWW-Authenticate', 'Basic realm="401"')
-    res.status(401).send()
-  })
-})
+// app.use((req,res,next) => {
+//   const users = db.get('users');
+//   users.findOne({basicauthtoken: req.headers.authorization}).then(user => {
+//     if (user) {
+//       req.username = user.username;  // test test => Basic dGVzdDp0ZXN0
+//       next()
+//     }
+//     else {
+//       res.set('WWW-Authenticate', 'Basic realm="401"')
+//       res.status(401).send()
+//     }
+//   }).catch(e => {
+//     console.error(e)
+//     res.set('WWW-Authenticate', 'Basic realm="401"')
+//     res.status(401).send()
+//   })
+// })
 
 
 
