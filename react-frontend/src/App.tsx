@@ -15,6 +15,7 @@ const App: React.FC = () => {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Overview />} />
+                    <Route path="/meme/:id/" element={<SingleView/>} />
                     <Route path="profile" element={<Profile />} />
                     {/*<Route path={"editor"} element={}></Route>*/}
                 </Route>
