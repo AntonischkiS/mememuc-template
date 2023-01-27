@@ -18,7 +18,7 @@ const App: React.FC = () => {
                     <Route index element={<Overview />} />
                     <Route path="/meme/:id/" element={<SingleView/>} />
                     <Route path="profile" element={<Profile />} />
-                    {/*<Route path={"editor"} element={}></Route>*/}
+                    <Route path={"editor"} element={Editor}></Route>
                 </Route>
                 <Route path="login" element={<Login setToken={setToken}/>}  />
             </Routes>
