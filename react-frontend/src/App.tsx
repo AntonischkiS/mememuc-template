@@ -6,6 +6,7 @@ import Layout from "./components/layout/Layout";
 import Login from "./components/login/Login";
 import React, {useState} from "react";
 import Overview from "./components/overview/Overview";
+import SingleView from "./components/SingleView";
 
 
 const App: React.FC = () => {

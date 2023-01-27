@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import CommentIcon from '@mui/icons-material/Comment';
 
-import "./Layout.css";
+import "./layout/Layout.css";
 
 function SingleView(navigation) {
   let { id } = useParams();
