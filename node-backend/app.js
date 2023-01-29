@@ -32,6 +32,13 @@ app.use(function(req,res,next){  req.db = db;
   next();
 });
 
+/**
+ * Initialize database with dummy data
+ * Remove for production/demo purposes
+ */
+const users = db.get('users');
+users.insert({ username: 'admin', password: 'admin'});
+console.log('Added dummy data');
 
 // the login middleware. Requires BasicAuth authentication
 // app.use((req,res,next) => {
@@ -57,9 +64,7 @@ app.use(function(req,res,next){  req.db = db;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.post('/users', function(req, res) {
-  res.send('GET')
-})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
