@@ -1,14 +1,15 @@
 // import logo from './logo.svg';
 import './App.css';
+
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import React, {useState} from "react";
+
 import Profile from "./components/profile/Profile";
 import Layout from "./components/layout/Layout";
 import Login from "./components/login/Login";
-import Editor from "./components/editor";
-import React, {useState} from "react";
 import Overview from "./components/overview/Overview";
-import SingleView from "./components/SingleView";
-
+import SingleView from "./components/singleview/SingleView";
+import Editor from "./components/editor";
 
 const App: React.FC = () => {
     const [token, setToken] = useState();

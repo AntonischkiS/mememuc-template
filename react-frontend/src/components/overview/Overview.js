@@ -1,6 +1,6 @@
 // Source: https://www.smashingmagazine.com/2020/03/infinite-scroll-lazy-image-loading-react/
 import React, { useReducer, useRef, useState } from 'react';
-import SingleView from "../SingleView";
+import SingleView from "../singleview/SingleView";
 import { useNavigate, useLocation } from "react-router-dom";
 import {Card, CardContent, Typography} from "@mui/material";
 import { Button,CardActions,CardActionArea } from '@mui/material';
