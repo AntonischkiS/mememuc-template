@@ -19,20 +19,21 @@ const Layout = () => {
                 </nav>
             </header>
             <Outlet/>
-            <body>
-            <div className="meme-generator">
-                <label>Select an Image</label>
-                <input type="file" id="imageFileInput"></input>
+            {/*@Heling: this needs to be in editor */}
+            {/*<body>*/}
+            {/*<div className="meme-generator">*/}
+            {/*    <label>Select an Image</label>*/}
+            {/*    <input type="file" id="imageFileInput"></input>*/}
 
-                <label>Top Text</label>
-                <input type="text" id="topTextInput"></input>
+            {/*    <label>Top Text</label>*/}
+            {/*    <input type="text" id="topTextInput"></input>*/}
 
-                <label>Bottom Text</label>
-                <input type="text" id="bottomTextInput"></input>
+            {/*    <label>Bottom Text</label>*/}
+            {/*    <input type="text" id="bottomTextInput"></input>*/}
 
-                <canvas id="meme"></canvas>
-            </div>
-            </body>
+            {/*    <canvas id="meme"></canvas>*/}
+            {/*</div>*/}
+            {/*</body>*/}
         </>
     );
 }
