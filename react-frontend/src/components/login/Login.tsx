@@ -1,6 +1,6 @@
 import "./Login.css"
 import React from "react";
-import {useNavigate, redirect} from "react-router-dom";
+import {/*redirect,*/ useNavigate} from "react-router-dom";
 import PropTypes from 'prop-types';
 
 
@@ -14,12 +14,11 @@ interface UserData {
 
 // @ts-ignore, can ignore here because Login should only be called from App
 const Login = ({setToken}) => {
-//TODO find out how to remove header of layout
-    const navigate = useNavigate();
 
     const [userData, setData] = React.useState<UserData>({
         name: "", password: "", error: {status: false, message: ""}, success: false
     });
+    const navigate = useNavigate();
 
     async function validateLogin() {
         if (userData.name === "" || userData.password === "") { //Don't allow empty name or password
@@ -35,35 +34,39 @@ const Login = ({setToken}) => {
                 name: userData.name,
                 password: userData.password
             })
-        }).then(res => {
-        try {
-            //TODO validate user name and password in backend
-            // fetch()
-            if (userData.name === "Adam" || userData.password === "1") {
-                setData({
-                    ...userData, success: true
-                })
-            } else {
-                setData({
-                    ...userData,
-                    error: {status: true, message: "Invalid Credentials!"},
-                })
-            }
-        } catch (error: any) {
-            setData({
-                ...userData,
-                error: {status: true, message: error}
+        })
+            .then(res => res.json())
+            .then(({username, password}) => {
+                try {
+                    //TODO add encryption
+                    if (userData.name === username || userData.password === password) {
+                        setData({
+                            ...userData, success: true
+                        })
+                    } else {
+                        setData({
+                            ...userData,
+                            error: {status: true, message: "Invalid Credentials!"},
+                        })
+                    }
+                } catch (error: any) {
+                    console.log("Error", error);
+                    setData({
+                        ...userData,
+                        error: {status: true, message: error}
+                    })
+                }
             })
-        }})
     }
 
     async function handleLoginClick() {
         await validateLogin() //Needs proper credentials to login
         if (userData.success) {
-            console.log(userData) //Only for debug, remove for production
-            const token = {name : userData.name}; //TODO: add further data as needed, e.g. mail
+            console.log("Login success")
+            const token = {name: userData.name}; //TODO: add further data as needed, e.g. mail
             setToken(token);
-            redirect("/profile");
+            // redirect("/profile");
+            navigate("/profile");
         }
     }
 
@@ -74,23 +77,24 @@ const Login = ({setToken}) => {
             </h1>
             <ul>
                 <li><label>
-                    Username:</label>
+                    Enter Username:</label>
                     <input id="user" name="user" type={"text"} onChange={(event) => setData({
                         ...userData,
                         name: event.target.value,
-                    })}></input>
+                    })} required/>
                 </li>
                 <li><label>
-                    Password: </label>
+                    Enter Password: </label>
                     <input id="pw" name="pw" type={"password"} onChange={(event) => setData({
                         ...userData,
                         password: event.target.value
-                    })}></input>
+                    })} required/>
                 </li>
                 <li>
-                    {userData.error.status && (<div className={"error"}>{
-                        userData.error.message}
-                    </div>)}
+                    {userData.error.status && (
+                        <div className={"error"}>{
+                            userData.error.message}
+                        </div>)}
                 </li>
                 <li>
                     <button onClick={handleLoginClick}> Login</button>
