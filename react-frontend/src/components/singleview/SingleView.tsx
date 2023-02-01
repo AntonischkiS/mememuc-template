@@ -1,6 +1,7 @@
 import React from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import {LazyLoadImage} from 'react-lazy-load-image-component';
+// @ts-ignore
+import {LazyLoadImage} from "react-lazy-load-image-component";
 import {Button, Card, CardActions, CardContent} from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -11,14 +12,17 @@ import CommentIcon from '@mui/icons-material/Comment';
 // import "../layout/Layout.css";
 import "./SingleView.css"
 
-function SingleView(navigation) {
+function SingleView() {
     let {id} = useParams();
     let id_next = Number(id) + 1;
     let id_prev = Number(id) - 1;
 
     // ToDO: 1000 must be replaced my last id
     let id_rnd = Math.floor(Math.random() * 1000);
-    let src = "".concat('https://picsum.photos/id/', id, '/5000/3333');
+    let src = null;
+    if (typeof id === "string") {
+        src = "".concat('https://picsum.photos/id/', id, '/5000/3333');
+    }
     const navigate = useNavigate();
 
     /**
@@ -26,11 +30,13 @@ function SingleView(navigation) {
      * ! Doesn't keep comments to one meme
      * ! better to store them in the database
      */
-    function addComment(text) {
+    function addComment(text: string | null) {
         const ul = document.getElementById('commentUl');
         const li = document.createElement('commentLi');
-        li.appendChild(document.createTextNode(text));
-        ul.appendChild(li);
+        if(ul !== null && text !==null){
+            li.appendChild(document.createTextNode(text));
+            ul.appendChild(li);
+        }
     }
 
     return (
@@ -76,7 +82,8 @@ function SingleView(navigation) {
                     defaultValue="Default Value"
                     onKeyDown={(event) => {
                         if (event.key === "Enter") {
-                            addComment(event.target.value);
+                            const value : HTMLDivElement= event.currentTarget;
+                            addComment(value.textContent);
                         }
                     }}
                 />
