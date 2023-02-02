@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 interface UserData {
     username: String,
+    // email: String,
     password: String;
     error: { status: Boolean, message: String };
     success: Boolean;
@@ -16,7 +17,7 @@ interface UserData {
 const Login = ({setToken}) => {
 
     const [userData, setData] = React.useState<UserData>({
-        username: "", password: "", error: {status: false, message: ""}, success: false
+        username: "",/*email:"",*/ password: "", error: {status: false, message: ""}, success: false
     });
     const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ const Login = ({setToken}) => {
             .then(({username, password}) => {
                 try {
                     //TODO add encryption
-                    if (userData.username === username || userData.password === password) {
+                    if (userData.username === username && userData.password === password) {
                         setData({
                             ...userData, success: true
                         })
@@ -50,13 +51,13 @@ const Login = ({setToken}) => {
                         })
                     }
                 } catch (error: any) {
-                    console.log("Error", error);
+                    console.log("Error: ", error);
                     setData({
                         ...userData,
                         error: {status: true, message: error}
                     })
                 }
-            })
+            }).catch((error: any) => console.log("Error: ", error))
     }
 
     async function handleLoginClick() {
