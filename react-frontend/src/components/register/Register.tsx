@@ -1,16 +1,16 @@
-import {Form} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Box} from "@mui/material";
 import React from "react";
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+
 interface submitData {
     firstname: string;
     lastname: string;
     username: string;
+    email: string;
     password: string;
-    email : string;
-
 }
 
 const validationSchema = yup.object().shape({
@@ -19,29 +19,48 @@ const validationSchema = yup.object().shape({
     //Username has to be unique
     //-> checked during fetch call
     username: yup.string()
-        .required('Username is required')
-        .min(6, 'Username must be at least 6 characters'),
+        .required('Username is required'),
+        // .min(6, 'Username must be at least 6 characters'),
     email: yup.string()
         .required('Email is required')
         .email('Email is invalid'),
     password: yup.string()
         .required('Password is required')
-        .min(6, 'Password must be at least 6 characters')
+        // .min(6, 'Password must be at least 6 characters')
 });
-const Register = () =>{
-
+const Register = () => {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         reset,
-        formState: { errors }
+        formState: {errors}
     } = useForm<submitData>({
         resolver: yupResolver(validationSchema)
     });
 
-    const onSubmit = (data: submitData) => {
-        console.log(JSON.stringify(data, null, 2));
+    const onSubmit = async (data: submitData) => {
+        const body = JSON.stringify({
+            username: data.username,
+            password: data.password,
+            firstname: data.firstname,
+            lastname: data.lastname,
+            email: data.email
+        });
+        console.log(body);
+        fetch("http://localhost:3001/users/register", {
+            method: "POST",
+            body: body
+            //     JSON.stringify({
+            //     username: data.username,
+            //     password: data.password,
+            //     firstname: data.firstname,
+            //     lastname: data.lastname,
+            //     email: data.email
+            // })
+        }).then(() => navigate('/profile')).catch(e => console.log("Error with fetching: ", e));
     };
+
     return (
         <Box className={"regBox"}>
             <form onSubmit={handleSubmit(onSubmit)}>

@@ -8,12 +8,14 @@ var User = require('../database/model');
  */
 router.post('/register', async (req, res) => {
     const body = req.body;
-    console.log("The user currently trying to log in: ", body);
-    User.insertMany(body).then((user) => {
+    console.log("The user currently trying to register: ");
+    console.log(req.body);
+    User.insertMany({username: body.username,password:body.password}).then((user) => {
         console.log('Added user: ', user);
         res.status(200).json(user);
     }).catch(err => {
-        res.status(501).json('User could not be registered due to this error: ', err);
+        res.status(500).send({message:err.message});
+        // res.json('User could not be registered due to this error: ', err);
     });
 
 });
