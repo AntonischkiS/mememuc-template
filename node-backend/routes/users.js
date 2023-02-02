@@ -1,25 +1,34 @@
 var express = require('express');
 var router = express.Router();
-var User = require( '../database/model');
+var User = require('../database/model');
 
-//TODO add registration
-
-// router.get('/', function(req, res, next) {
-//   const db = req.db;
-//   console.log("Connected to database")
-//   const users = db.get('users');
-//   users.find({username: req.username},{ projection: {basicauthtoken: 0} }) // return all user properties, except the basic auth token
-//       .then((docs) => res.json(docs))
-//       .catch((e) => res.status(500).send())
-// });
-router.post('/', async function (req, res/*, next*/) {
+/**
+ *Route for registration.
+ * Adds a user to the database
+ */
+router.post('/register', async (req, res) => {
     const body = req.body;
-    // const newUser = new User({username:body.name, password:body.password});
-    // await User.insertMany(newUser);
-    // console.log("Inserted new user")
+    console.log("The user currently trying to log in: ", body);
+    User.insertMany(body).then((user) => {
+        console.log('Added user: ', user);
+        res.status(200).json(user);
+    }).catch(err => {
+        res.status(501).json('User could not be registered due to this error: ', err);
+    });
+
+});
+
+/**
+ * The route for logging in
+ * Searches for user in the database
+ */
+router.post('/login', async (req, res/*, next*/) => {
+    const body = req.body;
+    console.log("The user currently trying to log in: ", body);
     //TODO add mail for 3rd party authentication
-    User.findOne({username: body.name}, {}) // return all user properties, except the basic auth token
+    User.findOne({username: body.username}, {}) // return all user properties, except the basic auth token
         .then((user) => {
+            console.log("User properties", user)
             res.json(user);
         })
         .catch((e) => res.status(500).send(e));

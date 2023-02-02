@@ -1,0 +1,9 @@
+.Register{
+    align-items: center;
+}
+.regBox{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: 5px auto;
+}
