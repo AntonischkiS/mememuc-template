@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import './App.css';
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -10,6 +9,7 @@ import Login from "./components/login/Login";
 import Overview from "./components/overview/Overview";
 import SingleView from "./components/singleview/SingleView";
 import Editor from "./components/editor";
+import Register from "./components/register/Register";
 
 const App: React.FC = () => {
     const [token, setToken] = useState();
@@ -23,7 +23,8 @@ const App: React.FC = () => {
                     {/*<Route path={"editor"} element={Editor}></Route>*/}
                 </Route>
                 <Route path="login" element={<Login setToken={setToken}/>}  />
-            </Routes>
+                <Route path="register" element={<Register/>} />
+        </Routes>
         </BrowserRouter>
     );
 }
