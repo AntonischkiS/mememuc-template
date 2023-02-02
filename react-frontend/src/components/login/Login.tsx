@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 
 interface UserData {
-    name: String,
+    username: String,
     password: String;
     error: { status: Boolean, message: String };
     success: Boolean;
@@ -16,22 +16,22 @@ interface UserData {
 const Login = ({setToken}) => {
 
     const [userData, setData] = React.useState<UserData>({
-        name: "", password: "", error: {status: false, message: ""}, success: false
+        username: "", password: "", error: {status: false, message: ""}, success: false
     });
     const navigate = useNavigate();
 
     async function validateLogin() {
-        if (userData.name === "" || userData.password === "") { //Don't allow empty name or password
+        if (userData.username === "" || userData.password === "") { //Don't allow empty name or password
             setData({
                 ...userData, error: {status: true, message: "User name or Password can't be empty"},
             })
             return;
         }
-        fetch("http://localhost:3001/users", {
+        fetch("http://localhost:3001/users/login", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                name: userData.name,
+                username: userData.username,
                 password: userData.password
             })
         })
@@ -39,7 +39,7 @@ const Login = ({setToken}) => {
             .then(({username, password}) => {
                 try {
                     //TODO add encryption
-                    if (userData.name === username || userData.password === password) {
+                    if (userData.username === username || userData.password === password) {
                         setData({
                             ...userData, success: true
                         })
@@ -63,7 +63,7 @@ const Login = ({setToken}) => {
         await validateLogin() //Needs proper credentials to login
         if (userData.success) {
             console.log("Login success")
-            const token = {name: userData.name}; //TODO: add further data as needed, e.g. mail
+            const token = {name: userData.username}; //TODO: add further data as needed, e.g. mail
             setToken(token);
             // redirect("/profile");
             navigate("/profile");
@@ -80,7 +80,7 @@ const Login = ({setToken}) => {
                     Enter Username:</label>
                     <input id="user" name="user" type={"text"} onChange={(event) => setData({
                         ...userData,
-                        name: event.target.value,
+                        username: event.target.value,
                     })} required/>
                 </li>
                 <li><label>
