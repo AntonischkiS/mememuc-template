@@ -1,8 +1,8 @@
 import "./editor.css"
 import React from "react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {/*redirect,*/ useNavigate} from "react-router-dom";
-import { Modal, ModalHeader, ModalBody, FormGroup, Label, NavbarBrand } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, FormGroup, Label, NavbarBrand } from "reactstrap";
 
 const initialState = {
   topText: "",
@@ -30,7 +30,36 @@ class MemeEditor extends React.Component {
           ...initialState
         };
       }
-
+      updateMemeCanvas(canvas, image, topText, bottomText) {
+        const ctx = canvas.getContext("2d");
+        const width = image.width;
+        const height = image.height;
+        const fontSize = Math.floor(width / 10);
+        const yOffset = height / 25;
+    
+        // Update canvas background
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(image, 0, 0);
+    
+        // Prepare text
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = Math.floor(fontSize / 4);
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.lineJoin = "round";
+        ctx.font = `${fontSize}px sans-serif`;
+    
+        // Add top text
+        ctx.textBaseline = "top";
+        ctx.strokeText(topText, width / 2, yOffset);
+        ctx.fillText(topText, width / 2, yOffset);
+    
+        // Add bottom text
+        ctx.textBaseline = "bottom";
+        ctx.strokeText(bottomText, width / 2, height - yOffset);
+        ctx.fillText(bottomText, width / 2, height - yOffset);
+    }
    // On file select (from the pop up)
    onFileChange (event) {
     const imageDataUrl = URL.createObjectURL(event.target.files[0]);
@@ -42,7 +71,7 @@ class MemeEditor extends React.Component {
     templateImage.addEventListener(
         "load",
         () => {
-          updateMemeCanvas(
+          this.updateMemeCanvas(
             canvas,
             templateImage,
             this.state.toptext,
@@ -77,42 +106,13 @@ class MemeEditor extends React.Component {
       );
   };
 */
-    updateMemeCanvas(canvas, image, topText, bottomText) {
-        const ctx = canvas.getContext("2d");
-        const width = image.width;
-        const height = image.height;
-        const fontSize = Math.floor(width / 10);
-        const yOffset = height / 25;
-    
-        // Update canvas background
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(image, 0, 0);
-    
-        // Prepare text
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = Math.floor(fontSize / 4);
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.lineJoin = "round";
-        ctx.font = `${fontSize}px sans-serif`;
-    
-        // Add top text
-        ctx.textBaseline = "top";
-        ctx.strokeText(topText, width / 2, yOffset);
-        ctx.fillText(topText, width / 2, yOffset);
-    
-        // Add bottom text
-        ctx.textBaseline = "bottom";
-        ctx.strokeText(bottomText, width / 2, height - yOffset);
-        ctx.fillText(bottomText, width / 2, height - yOffset);
-    }
+
   
     changeText = (event) => {
         this.setState({
           [event.currentTarget.name]: event.currentTarget.value
         });
-        updateMemeCanvas(canvas, templateImage, this.state.topText, this.state.bottomText)
+        this.updateMemeCanvas(canvas, templateImage, this.state.topText, this.state.bottomText)
     }
 
     RandomIMG = (event) => {
@@ -148,9 +148,59 @@ class MemeEditor extends React.Component {
       }
     
     render() {
-        
+        var wrh = templateImage.width / templateImage.height;
+        var newWidth = 600;
+        var newHeight = newWidth / wrh;
+        const textStyle = {
+            fontFamily: "Impact",
+            fontSize: "50px",
+            textTransform: "uppercase",
+            fill: "#FFF",
+            stroke: "#000",
+            userSelect: "none"
+          }
+      
         return (
             <>
+        <Modal className="meme-gen-modal" isOpen={this.state.modalIsOpen}>
+          <ModalHeader toggle={this.toggle}>Make-a-Meme</ModalHeader>
+          <ModalBody>
+            <svg
+              width={newWidth}
+              id="svg_ref"
+              height={newHeight}
+              ref={el => { this.svgRef = el }}
+              xmlns="http://www.w3.org/2000/svg"
+              xmlnsXlink="http://www.w3.org/1999/xlink">
+              <image
+                ref={el => { this.imageRef = el }}
+                xlinkHref={this.state.currentImagebase64}
+                height={newHeight}
+                width={newWidth}
+              />
+              <text
+                style={{ ...textStyle, zIndex: this.state.isTopDragging ? 4 : 1 }}
+                x={this.state.topX}
+                y={this.state.topY}
+                dominantBaseline="middle"
+                textAnchor="middle"
+                onMouseDown={event => this.handleMouseDown(event, 'top')}
+                onMouseUp={event => this.handleMouseUp(event, 'top')}
+              >
+                  {this.state.toptext}
+              </text>
+              <text
+                style={textStyle}
+                dominantBaseline="middle"
+                textAnchor="middle"
+                x={this.state.bottomX}
+                y={this.state.bottomY}
+                onMouseDown={event => this.handleMouseDown(event, 'bottom')}
+                onMouseUp={event => this.handleMouseUp(event, 'bottom')}
+              >
+                  {this.state.bottomtext}
+              </text>
+            </svg>
             <div className="meme-generator">
                 <label>Select an Image</label>
                 <input type="file" id="imageFileInput" ></input>
@@ -178,6 +228,8 @@ class MemeEditor extends React.Component {
                 <canvas id="meme"></canvas>
                 <button onClick={() => this.convertSvgToImage()} className="btn btn-primary">Download Meme!</button>
             </div>
+            </ModalBody>
+        </Modal>
         </>
         );
     }
