@@ -50,6 +50,7 @@ const Register = () => {
         console.log(body);
         fetch("http://localhost:3001/users/register", {
             method: "POST",
+            headers: {"Content-Type": "application/json"},
             body: body
             //     JSON.stringify({
             //     username: data.username,
